@@ -69,7 +69,11 @@ PROCE MAIN()
        nMonto:=A->C
        EJECUTAR("CREATERECORD","DPPROVEEDOR",{"PRO_CODIGO","PRO_RIF","PRO_NOMBRE","PRO_TIPO"  ,"PRO_SITUAC" },; 
                                              {cCodigo     ,cRif     ,A->A        ,"Trabajador","Activo"},;
-                                              NIL,.T.,"PRO_CODIGO"+GetWhere("=",cCodigo))
+                                              NIL,.T.,"PRO_CODIGO"+GetWhere("=",cCodigo),.F.)
+
+     ELSE
+  
+        SQLUPDATE("DPPROVEEDOR",{"PRO_TIPO","PRO_NOMBRE"},{"Trabajador",A->A},"PRO_CODIGO"+GetWhere("=",cCodigo))
 
      ENDIF
 
@@ -99,6 +103,8 @@ PROCE MAIN()
   oDb:Execute(cSql)
 
   CLOSE ALL
+
+ EJECUTAR("DPDOCCXP",cTipDoc)
 
 RETURN .T.
 // EOF
